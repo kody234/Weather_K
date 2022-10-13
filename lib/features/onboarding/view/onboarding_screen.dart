@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:weather_k/core/utils/colors.dart';
 import 'package:weather_k/core/utils/icons.dart';
 import 'package:weather_k/core/utils/images.dart';
+import 'package:weather_k/features/onboarding/controller/onboarding_controller.dart';
 
 class OnBoardingScreen extends StatelessWidget {
   const OnBoardingScreen({Key? key}) : super(key: key);
@@ -10,6 +11,7 @@ class OnBoardingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    OnBoardingController ctr = OnBoardingController();
     TextStyle myTextStyle = const TextStyle(
         fontWeight: FontWeight.w700,
         fontSize: 42,
@@ -87,7 +89,9 @@ class OnBoardingScreen extends StatelessWidget {
                               fontWeight: FontWeight.w400,
                               fontSize: 20),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          ctr.goToHomeScreen(context);
+                        },
                       ),
                     ),
                   ),
