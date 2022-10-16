@@ -20,7 +20,7 @@ class WeatherK extends StatelessWidget {
               initialRoute: SplashScreen.route,
               debugShowCheckedModeBanner: false,
               routes: {
-                HomeScreen.route: (_) => const HomeScreen(),
+                HomeScreen.route: (_) => HomeScreen(),
                 SplashScreen.route: (_) => const SplashScreen(),
                 OnBoardingScreen.route: (_) => const OnBoardingScreen(),
               },
