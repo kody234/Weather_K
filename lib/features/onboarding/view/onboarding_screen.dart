@@ -1,13 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:weather_k/core/service/location/controller.dart';
 import 'package:weather_k/core/utils/colors.dart';
 import 'package:weather_k/core/utils/icons.dart';
 import 'package:weather_k/core/utils/images.dart';
 import 'package:weather_k/features/onboarding/controller/onboarding_controller.dart';
 
-class OnBoardingScreen extends StatelessWidget {
+class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({Key? key}) : super(key: key);
 
   static const route = 'onBoarding';
+
+  @override
+  State<OnBoardingScreen> createState() => _OnBoardingScreenState();
+}
+
+class _OnBoardingScreenState extends State<OnBoardingScreen> {
+  late Position position;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getPosition();
+  }
+
+  getPosition() async {
+    position = await Location.determinePosition();
+    debugPrint(position.latitude.toString());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +111,8 @@ class OnBoardingScreen extends StatelessWidget {
                               fontSize: 20),
                         ),
                         onPressed: () {
-                          ctr.goToHomeScreen(context);
+                          ctr.goToHomeScreen(
+                              context, position.longitude, position.latitude);
                         },
                       ),
                     ),
