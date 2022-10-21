@@ -9,6 +9,7 @@ class WeatherApi {
       var res = await Dio().get(endPoint);
       if (res.statusCode == 200) {
         debugPrint('success');
+        debugPrint(res.data.toString(), wrapWidth: 1024);
         return weatherModelFromJson(res.data);
       } else {
         debugPrint('failure');
