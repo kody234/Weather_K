@@ -6,29 +6,11 @@ import 'package:weather_k/core/utils/icons.dart';
 import 'package:weather_k/core/utils/images.dart';
 import 'package:weather_k/features/onboarding/controller/onboarding_controller.dart';
 
-class OnBoardingScreen extends StatefulWidget {
-  const OnBoardingScreen({Key? key}) : super(key: key);
+class OnBoardingScreen extends StatelessWidget {
+  const OnBoardingScreen({Key? key, required this.position}) : super(key: key);
 
   static const route = 'onBoarding';
-
-  @override
-  State<OnBoardingScreen> createState() => _OnBoardingScreenState();
-}
-
-class _OnBoardingScreenState extends State<OnBoardingScreen> {
-  late Position position;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    getPosition();
-  }
-
-  getPosition() async {
-    position = await Location.determinePosition();
-    debugPrint(position.latitude.toString());
-  }
+  final Position position;
 
   @override
   Widget build(BuildContext context) {

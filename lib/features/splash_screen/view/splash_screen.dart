@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:weather_k/core/service/location/controller.dart';
 import 'package:weather_k/core/utils/colors.dart';
 import 'package:weather_k/core/utils/icons.dart';
 import 'package:weather_k/core/utils/images.dart';
@@ -18,14 +20,25 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   SplashScreenController ctr = SplashScreenController();
+  Position? position;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    Timer(const Duration(seconds: 2), () {
-      ctr.goToOnBoarding(context);
+    getPosition();
+    Timer.periodic(const Duration(milliseconds: 300), (timer) {
+      if (position != null) {
+        timer.cancel();
+        ctr.goToOnBoarding(context, position!);
+      }
     });
+  }
+
+  getPosition() async {
+    position = await Location.determinePosition();
+
+    debugPrint(position?.latitude.toString());
   }
 
   @override
