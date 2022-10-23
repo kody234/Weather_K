@@ -22,7 +22,6 @@ class WeatherK extends StatelessWidget {
               routes: {
                 HomeScreen.route: (_) => HomeScreen(),
                 SplashScreen.route: (_) => const SplashScreen(),
-                OnBoardingScreen.route: (_) => const OnBoardingScreen(),
               },
             ));
   }

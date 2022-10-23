@@ -7,6 +7,7 @@ import 'package:weather_k/core/api/endpoint.dart';
 import 'package:weather_k/core/api/weather_api.dart';
 import 'package:weather_k/core/models/weather.dart';
 import 'package:weather_k/core/utils/colors.dart';
+import 'package:weather_k/core/utils/flags.dart';
 import 'package:weather_k/core/utils/icons.dart';
 import 'package:weather_k/core/utils/images.dart';
 
@@ -57,16 +58,23 @@ class _HomeScreenState extends State<HomeScreen> {
     textController.clear();
   }
 
-  String getWeatherRating(double temp) {
-    if (temp < 15) {
-      return 'Chilly';
-    } else if (temp <= 35 && temp > 15) {
+  String getWeatherRating(int code) {
+    if (code.toString().startsWith('2')) {
+      return 'Very Bad';
+    } else if (code.toString().startsWith('3')) {
+      return 'Very Bad';
+    } else if (code.toString().startsWith('5')) {
+      return 'Very Bad';
+    } else if (code.toString().startsWith('6')) {
       return 'Good';
-    } else if (temp <= 65 && temp > 35) {
+    } else if (code.toString().startsWith('7')) {
+      return 'Good';
+    } else if (code.toString().startsWith('800')) {
       return 'Very Good';
-    } else if (temp <= 100 && temp > 65) {
-      return ' Boiling hot';
+    } else if (code.toString().startsWith('8')) {
+      return 'Good';
     }
+
     return '';
   }
 
@@ -105,13 +113,36 @@ class _HomeScreenState extends State<HomeScreen> {
 
   String weatherText(double temp) {
     if (temp < 15) {
-      return 'It’s freezing out today.\nIt’s Arctic out there';
+      return 'It’s freezing out today.\nIt’s Arctic out there in';
     } else if (temp <= 35 && temp > 15) {
       return 'It’s a bit chilly.\nWrap up warm in';
     } else if (temp <= 65 && temp > 35) {
       return 'It feels Like A good\ntime to ride a bike in';
     } else if (temp <= 100 && temp > 65) {
       return ' It’s absolutely boiling!,\nDid you order this sunshine?';
+    }
+    return '';
+  }
+
+  String getLocationFlag(String countryCode) {
+    if (countryCode == 'NG') {
+      return AppFlags.nG;
+    } else if (countryCode == 'BE') {
+      return AppFlags.bE;
+    } else if (countryCode == 'CA') {
+      return AppFlags.cA;
+    } else if (countryCode == 'DE') {
+      return AppFlags.gE;
+    } else if (countryCode == 'IT') {
+      return AppFlags.iT;
+    } else if (countryCode == 'ES') {
+      return AppFlags.eS;
+    } else if (countryCode == 'US') {
+      return AppFlags.uS;
+    } else if (countryCode == 'EG') {
+      return AppFlags.eG;
+    } else if (countryCode == 'AE') {
+      return AppFlags.aE;
     }
     return '';
   }
@@ -161,6 +192,15 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: Text(
                               '${_weatherModel!.city?.name!}, ${_weatherModel!.city?.country!}',
                             ),
+                          ),
+                          SizedBox(
+                            width: 10.w,
+                          ),
+                          Image.asset(
+                            getLocationFlag(_weatherModel!.city!.country!),
+                            height: 20,
+                            width: 30,
+                            fit: BoxFit.cover,
                           ),
                           SizedBox(
                             width: 10.w,
@@ -247,8 +287,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       SizedBox(
                         height: 40.h,
                       ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
+                      Wrap(
+                        crossAxisAlignment: WrapCrossAlignment.end,
                         children: [
                           Text(
                             '${weatherText(_weatherModel!.list!.first.main!.temp!)} ${_weatherModel!.city?.name!}',
@@ -372,7 +412,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                               Text(
                                 getWeatherRating(
-                                    _weatherModel!.list![1].main!.temp!),
+                                    _weatherModel!.list![1].weather!.first.id!),
                                 textAlign: TextAlign.start,
                                 style: const TextStyle(
                                     fontWeight: FontWeight.w500,
@@ -396,7 +436,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                               Text(
                                 getWeatherRating(
-                                    _weatherModel!.list![2].main!.temp!),
+                                    _weatherModel!.list![2].weather!.first.id!),
                                 textAlign: TextAlign.start,
                                 style: const TextStyle(
                                     fontWeight: FontWeight.w500,
